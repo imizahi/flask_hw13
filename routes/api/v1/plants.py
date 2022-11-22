@@ -45,7 +45,12 @@ class SinglePlantResource(Resource):
         db.session.add(plant)
         db.session.commit()
         return plant.serialize()
-
+    
+    def delete(self, id):
+        plant = PlantsModel.query.get(id)
+        db.session.delete(plant)
+        db.session.commit()
+        return plant.serialize()
 
 api.add_resource(PlantResource, "/api/v1/plants")
 api.add_resource(SinglePlantResource, "/api/v1/plants/<int:id>")
