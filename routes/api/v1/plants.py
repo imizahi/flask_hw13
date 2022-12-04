@@ -2,6 +2,7 @@ from app import api, db
 from flask_restful import Resource
 from flask import request
 from models.models import Plant as PlantModel
+from models.models import Employee as EmployeeModel
 
 class PlantResource(Resource):
 
@@ -47,7 +48,11 @@ class SinglePlantResource(Resource):
         return plant.serialize()
     
     def delete(self, id):
-        plant = PlantsModel.query.get(id)
+        plant = PlantModel.query.get(id)
+        employee = EmployeeModel.query.all()
+        for emp in employee:
+            if emp.plant_id == plant.id:
+                return {"need to delete employee": employee.serialize()}
         db.session.delete(plant)
         db.session.commit()
         return plant.serialize()

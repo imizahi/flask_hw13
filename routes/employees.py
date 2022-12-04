@@ -29,3 +29,10 @@ def add_employee():
         plants = Plant.query.all()
         return render_template("add-employee.html", plants=plants)
 
+@app.route("/delete-employee/<int:id>")
+def delete_employee(id):
+    employee = Employee.query.get(id)
+    print(employee.id)
+    db.session.delete(employee)
+    db.session.commit()
+    return redirect("/")
